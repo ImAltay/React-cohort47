@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 const Value = ({ value, setValue }) => {
   return (
     <div>
-      <label htmlFor='value'>Value(1-5)</label>
+      <label htmlFor='value'>Value (1-5) </label>
       <input 
         type='number'
         id='value'

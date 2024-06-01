@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 
 const Count = ({ count }) => {
+    // document.body.style.background = `linear-gradient(to top, #00b3ff ${count*10}%, #333 ${count*10}%)`;
   return (
-    <div><p>Count<span>{count}</span></p></div>
+    <div>
+        <div id='glass' style={{background: `linear-gradient(to top, #00b3ff ${count*10}%, #333 ${count*10}%)`}} > </div>
+        <p><span>{count}</span>L</p></div>
   );
 };
 
