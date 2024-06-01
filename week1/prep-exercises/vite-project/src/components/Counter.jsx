@@ -5,18 +5,13 @@ import Value from './Value';
 
 function Counter() {
   const [count, setCount] = useState(0);
-  
-
-  const countFunction = (amount) => { setCount(count +amount < 0 ? 0 : (count + amount))}
-  const feedback = count > 10 ? "It's higher than 10" : "Keep counting...";
-  //
   const [value, setValue] = useState(1);
+  const countFunction = (amount) => { setCount(count +amount < 0 ? 0 : (count + amount))}
+  const feedback = count > 10 ? "It's higher than 10" : "Keep Adding..."; 
 
   return (
     <div>
-      <Count count={count}></Count>
-      
-      
+      <Count count={count}></Count> 
       <Button countFunction={()=> {countFunction(value)}} countText={`+ ${value} `}></Button>
       <Button countFunction={()=> {countFunction(-value)}} countText={`- ${value} `}></Button>
       <Value value={value} setValue={setValue}></Value>
