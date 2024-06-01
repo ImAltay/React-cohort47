@@ -4,7 +4,7 @@ const Value = ({ value, setValue }) => {
   return (
     <div>
       <label htmlFor='value'>Value(1-5)</label>
-      <input
+      <input 
         type='number'
         id='value'
         name='value'

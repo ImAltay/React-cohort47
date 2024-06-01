@@ -15,10 +15,7 @@ function Counter() {
       <Button countFunction={()=> {countFunction(value)}} countText={`+ ${value} `}></Button>
       <Button countFunction={()=> {countFunction(-value)}} countText={`- ${value} `}></Button>
       <Value value={value} setValue={setValue}></Value>
-        
-    
-      
-        <p>{feedback}</p>
+      <p>{feedback}</p>
     </div>
   );
 }
