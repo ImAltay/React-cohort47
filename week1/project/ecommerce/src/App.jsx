@@ -6,15 +6,16 @@ import Products from './components/Products'
 import productsList from '../fake-data/all-products'
 
 function App() {
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0)
+  const [activeCategory, setActiveCategory] = useState("")
 
-      
+  const handleClick = (category) => {
+    setActiveCategory(category)
+}
+
   return ( 
-      <div>        
-        
-        
-        <Categories categoriesList = {categoriesList}/>
-        <Products productsList = {productsList}/>
+      <div>     
+        <Categories categoriesList = {categoriesList} handleClick={handleClick}/>
+        <Products productsList = {productsList} activeCategory={activeCategory}/>
       </div>
      
   )

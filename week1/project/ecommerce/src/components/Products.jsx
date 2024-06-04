@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types';
 
-const Products = ({productsList}) => {
+const Products = ({productsList, activeCategory}) => {
+
+
+   
+
+    const selectedProductsList = activeCategory === "" ?  productsList : productsList.filter(product => activeCategory.includes(product.category))
     return (
         <div className='products-list'>
-           { productsList.map((product, index) => (
+           { selectedProductsList.map((product, index) => (
                 <div key={index} className='product'>
                     
                     <img src={product.image} alt={product.title} />
@@ -16,7 +21,8 @@ const Products = ({productsList}) => {
 }
 
 Products.propTypes = {
-    productsList: PropTypes.arrayOf(PropTypes.object).isRequired
+    productsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    activeCategory: PropTypes.string.isRequired
 }
 
 export default Products;
