@@ -9,7 +9,6 @@ function App() {
   const [allCategories, setAllCategories] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [productId, setProductId] = useState(-1);
 
   const handleCategoryClick = (category) => {
     if (category === activeCategory) {
@@ -18,11 +17,6 @@ function App() {
       setActiveCategory(category);
     }
   };
-
-  // const handleProductClick = (id) => {
-  //   setProductId(id);
-   
-  // };
 
   // fetch data on mount for all categories
   useEffect(() => {
@@ -52,7 +46,6 @@ function App() {
     }
   }, [activeCategory]);
 
-
   return (
     <BrowserRouter>
       <Routes>
@@ -68,7 +61,6 @@ function App() {
                 productsList={productsList}
                 loading={loading}
                 activeCategory={activeCategory}
-                // handleClick = {handleProductClick}
               />
             </div>
           }
@@ -80,8 +72,3 @@ function App() {
 }
 
 export default App;
-
-// <div>
-// <Categories categoriesList={allCategories} handleClick={handleClick} />
-// <Products productsList={productsList} loading={loading} activeCategory={activeCategory} />
-// </div>

@@ -3,28 +3,21 @@ import { useEffect, useState } from 'react';
 
 const Product = () => {
     const { id } = useParams();
-    // 
-    const [productTitle, setProductTitle ] = useState('');
-    const [productDescription, setProductDescription ] = useState('');
-    const [productImgUrl, setProductImgUrl ] = useState('');
-
-
+    const [product, setProduct] = useState({});
 
     useEffect(() => {
         fetch(`https://fakestoreapi.com/products/${id}`)
             .then((res) => res.json())
-            .then((data) => {
-                setProductTitle(data.title);
-                setProductDescription(data.description);
-                setProductImgUrl(data.image);
+            .then((data) => {                
+                setProduct({productTitle: data.title, productDescription: data.description, productImgUrl: data.image})
             });
     });
 
     return (
         <div className='product-info'>
-            <h2>{productTitle}</h2>
-            <img src={productImgUrl} alt="" />
-           <p>{productDescription}</p>           
+            <h2>{product.productTitle}</h2>
+            <img src={product.productImgUrl} alt={`${product.productDescription}`} />
+           <p>{product.productDescription}</p>           
         </div>
     )
 }
