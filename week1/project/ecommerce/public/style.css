@@ -25,6 +25,8 @@ img {
 }
 
 .products-list {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -33,19 +35,23 @@ img {
 }
 
 .product {
-  flex: 25%;
-  margin: 10px;
-  padding: 10px;
+  margin-top: 10px;
 }
 
-@media (max-width: 992px) {
+@media (min-width: 600px) {
   .product {
     flex: 50%;
   }
 }
 
-@media (max-width: 576px) {
+@media (min-width: 1000px) {
   .product {
-    flex: 100%;
+    flex: 33%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .product {
+    flex: 25%;
   }
 }
