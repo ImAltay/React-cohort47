@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Categories from './components/Categories';
 import Products from './components/Products';
 import ProductInfo from './components/ProductInfo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { PRODUCTS_URL } from './constants.js';
 
 function App() {
   const [activeCategory, setActiveCategory] = useState('');
   const [allCategories, setAllCategories] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState({});
 
   const handleCategoryClick = (category) => {
     if (category === activeCategory) {
@@ -18,33 +20,57 @@ function App() {
     }
   };
 
-  // fetch data on mount for all categories
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products/categories')
-      .then((res) => res.json())
-      .then((data) => {
-        setAllCategories(data);
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch(`${PRODUCTS_URL}/categories`);
+      const data = await res.json();
+      setAllCategories(data);
+    } catch (err) {
+      setError({
+        categoriesList: true,
+        message: `Error fetching categories: ${err} `,
       });
-  }, []);
-  // fetch data on mount for all or selected products
-  useEffect(() => {
-    setLoading(true);
-    if (activeCategory === '') {
-      fetch('https://fakestoreapi.com/products')
-        .then((res) => res.json())
-        .then((data) => {
-          setProductsList(data);
-          setLoading(false);
-        });
-    } else {
-      fetch(`https://fakestoreapi.com/products/category/${activeCategory}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProductsList(data);
-          setLoading(false);
-        });
+    }
+  };
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      const url = activeCategory
+        ? `${PRODUCTS_URL}/category/${activeCategory}`
+        : PRODUCTS_URL;
+      const response = await fetch(url);
+      const result = await response.json();
+      setProductsList(result);
+    } catch (err) {
+      setError({
+        productsList: true,
+        message: `Error fetching product data: ${err} `,
+      });
+    } finally {
+      setLoading(false);
     }
   }, [activeCategory]);
+
+  // fetch data on mount for all categories and products
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+    return () => {
+      setError({});
+    };
+  }, [fetchProducts]);
+  // fetch products when active category changes
+  useEffect(() => {
+    fetchProducts();
+    return () => {
+      setError({});
+    };
+  }, [activeCategory, fetchProducts]);
+
+  if (error.categoriesList) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <BrowserRouter>
@@ -57,11 +83,16 @@ function App() {
                 categoriesList={allCategories}
                 handleClick={handleCategoryClick}
               />
-              <Products
-                productsList={productsList}
-                loading={loading}
-                activeCategory={activeCategory}
-              />
+
+              {error.productsList ? (
+                <div> {error.message}</div>
+              ) : (
+                <Products
+                  productsList={productsList}
+                  loading={loading}
+                  activeCategory={activeCategory}
+                />
+              )}
             </div>
           }
         />
