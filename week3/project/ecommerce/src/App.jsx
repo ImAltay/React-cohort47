@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Categories from './components/Categories';
 import Products from './components/Products';
 import ProductInfo from './components/ProductInfo';
+import NavBar from './components/NavBar.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PRODUCTS_URL } from './constants.js';
-
-export const FavoritesContext = React.createContext();
+import { FavoritesProvider } from './contexts/FavoritesContext.jsx';
 
 function App() {
   const [activeCategory, setActiveCategory] = useState('');
@@ -13,6 +13,7 @@ function App() {
   const [productsList, setProductsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState({});
+  const [isFavoritePage, setIsFavoritePage] = useState(false);
 
   const handleCategoryClick = (category) => {
     if (category === activeCategory) {
@@ -20,6 +21,10 @@ function App() {
     } else {
       setActiveCategory(category);
     }
+  };
+
+  const handleFavoriteClick = (bool) => {
+    setIsFavoritePage(bool);
   };
 
   const fetchCategories = async () => {
@@ -75,32 +80,48 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path='/'
-          element={
-            <div>
-              <Categories
-                categoriesList={allCategories}
-                handleClick={handleCategoryClick}
-              />
+    <FavoritesProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <div>
+                <NavBar handleClick={handleFavoriteClick} title='Products' />
+                <Categories
+                  categoriesList={allCategories}
+                  handleClick={handleCategoryClick}
+                />
 
-              {error.productsList ? (
-                <div> {error.message}</div>
-              ) : (
+                {error.productsList ? (
+                  <div> {error.message}</div>
+                ) : (
+                  <Products
+                    productsList={productsList}
+                    loading={loading}
+                    isFavoritePage={isFavoritePage}
+                  />
+                )}
+              </div>
+            }
+          />
+          <Route path='/:id' element={<ProductInfo />} />
+          <Route
+            path='/favorites'
+            element={
+              <div>
+                <NavBar handleClick={handleFavoriteClick} title='Favorites' />
                 <Products
                   productsList={productsList}
                   loading={loading}
-                  activeCategory={activeCategory}
-                />
-              )}
-            </div>
-          }
-        />
-        <Route path='/:id' element={<ProductInfo />} />
-      </Routes>
-    </BrowserRouter>
+                  isFavoritePage={isFavoritePage}
+                />{' '}
+              </div>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </FavoritesProvider>
   );
 }
 
