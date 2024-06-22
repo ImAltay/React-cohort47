@@ -24,6 +24,7 @@ function App() {
   };
 
   const handleFavoriteClick = (bool) => {
+    setActiveCategory('');
     setIsFavoritePage(bool);
   };
 
@@ -106,6 +107,7 @@ function App() {
             }
           />
           <Route path='/:id' element={<ProductInfo />} />
+          <Route path='favorites/:id' element={<ProductInfo />} />
           <Route
             path='/favorites'
             element={
@@ -115,7 +117,7 @@ function App() {
                   productsList={productsList}
                   loading={loading}
                   isFavoritePage={isFavoritePage}
-                />{' '}
+                />
               </div>
             }
           />
