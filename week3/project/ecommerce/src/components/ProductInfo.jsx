@@ -38,15 +38,15 @@ const Product = () => {
   return (
     <div className='product-info'>
       <h2>{product.productTitle}</h2>
-      <img src={product.productImgUrl} alt={`${product.productDescription}`} />
+      <img src={product.productImgUrl} alt={product.productDescription} />
       <img
-            src={colorHearts(favoritesList, product.productID)}
-            onClick={() => {
-              toggleFavorite(product.productID);
-            }}
-            className='fav-icon'
-            alt='heart image to favorite this item'
-          />
+        src={colorHearts(favoritesList, product.productID)}
+        onClick={() => {
+          toggleFavorite(product.productID);
+        }}
+        className='fav-icon'
+        alt='heart image to favorite this item'
+      />
       <p>{product.productDescription}</p>
     </div>
   );

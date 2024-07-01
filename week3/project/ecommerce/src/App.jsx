@@ -8,7 +8,7 @@ import { PRODUCTS_URL } from './constants.js';
 import { FavoritesProvider } from './contexts/FavoritesContext.jsx';
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState('');
+  const [activeCategory, setActiveCategory] = useState(null);
   const [allCategories, setAllCategories] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,15 +17,15 @@ function App() {
 
   const handleCategoryClick = (category) => {
     if (category === activeCategory) {
-      setActiveCategory('');
+      setActiveCategory(null);
     } else {
       setActiveCategory(category);
     }
   };
 
-  const handleFavoriteClick = (bool) => {
-    setActiveCategory('');
-    setIsFavoritePage(bool);
+  const handleFavoriteClick = () => {
+    setActiveCategory(null);
+    setIsFavoritePage((prev)=>!prev);
   };
 
   const fetchCategories = async () => {
